@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <style>
+      #game {
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+    <script>
+      const canvas = document.getElementById("game");
+      const ctx = canvas.getContext("2d");
+
+      const player = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        angle: 0,
+        speed: 5
+      };
+
+      const enemies = [];
+      for (let i = 0; i < 5; i++) {
+        enemies.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          angle: Math.random() * 2 * Math.PI
+        });
+      }
+
+      function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const enemy of enemies) {
+          ctx.fillRect(enemy.x - 5, enemy.y - 5, 10, 10);
+        }
+        ctx.fillRect(player.x - 10, player.y - 10, 20, 20);
+      }
+
+      document.addEventListener("keydown", function(event) {
+        switch (event.keyCode) {
+          case 37: // Left arrow
+            player.angle -= 0.1;
+            break;
+          case 38: // Up arrow
+            player.x += player.speed * Math.cos(player.angle);
+            player.y += player.speed * Math.sin(player.angle);
+            break;
+          case 39: // Right arrow
+            player.angle += 0.1;
+            break;
+        }
+      });
+
+      setInterval(update, 16);
+    </script>
+  </body>
+</html>
